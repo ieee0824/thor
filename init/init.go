@@ -30,14 +30,14 @@ func drawLine(x, y int, str string) {
 
 func drawString(s string) {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-	drawLine(0, 0, "Press ESC to exit.")
+	drawLine(0, 0, "Press ^C or ESC to exit.")
 	drawLine(0, 1, s)
 	termbox.Flush()
 }
 
 func draw(d Section) {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-	drawLine(0, 0, "Press ESC to exit.")
+	drawLine(0, 0, "Press ^C or ESC to exit.")
 
 	for i, l := range strings.Split(d.Message(), "\n") {
 		drawLine(0, i+1, l)
