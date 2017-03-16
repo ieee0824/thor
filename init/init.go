@@ -48,7 +48,6 @@ func draw(d Section) {
 
 func RunInit() {
 	box := NewPolarQuestionBox("test")
-	var fin = make(chan bool)
 	//点滅を制御する
 	go func() {
 		t := time.NewTicker(500 * time.Millisecond)
@@ -57,7 +56,6 @@ func RunInit() {
 			case <-t.C:
 				box.ToggleCursor()
 				draw(box)
-			case <-fin:
 			default:
 			}
 		}
@@ -70,10 +68,8 @@ func RunInit() {
 		case termbox.EventKey:
 			switch ev.Key {
 			case termbox.KeyEsc:
-				fin <- true
 				return
 			case termbox.KeyCtrlC:
-				fin <- true
 				return
 			case termbox.KeyEnter:
 				drawString(box.Answer())
