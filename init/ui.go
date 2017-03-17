@@ -110,6 +110,15 @@ type SelectBox struct {
 	cursorPlace int
 	Items       []*Item
 	MaxWidth    int
+	controller  func()
+}
+
+func (s *SelectBox) SetController(f func()) {
+	s.controller = f
+}
+
+func (s *SelectBox) Controller() {
+	s.controller()
 }
 
 func (s *SelectBox) ToggleCursor() {
@@ -182,10 +191,19 @@ func genCursor(b bool) string {
 }
 
 type TextBox struct {
-	Question string
-	input    string
-	MaxWidth int
-	cursor   bool
+	Question   string
+	input      string
+	MaxWidth   int
+	cursor     bool
+	controller func()
+}
+
+func (t *TextBox) SetController(f func()) {
+	t.controller = f
+}
+
+func (t *TextBox) Controller() {
+	t.controller()
 }
 
 func (t *TextBox) ToggleCursor() {
@@ -231,10 +249,19 @@ func NewTextBox(q string, w ...int) *TextBox {
 }
 
 type PolarQuestionBox struct {
-	Question string
-	input    string
-	defo     string
-	cursor   bool
+	Question   string
+	input      string
+	defo       string
+	cursor     bool
+	controller func()
+}
+
+func (t *PolarQuestionBox) SetController(f func()) {
+	t.controller = f
+}
+
+func (t *PolarQuestionBox) Controller() {
+	t.controller()
 }
 
 func (t *PolarQuestionBox) ToggleCursor() {

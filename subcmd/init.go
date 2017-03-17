@@ -2,10 +2,16 @@ package subcmd
 
 import (
 	"log"
+	"time"
 
-	i "github.com/ieee0824/thor/init"
+	"github.com/ieee0824/thor/controller"
+	_ "github.com/ieee0824/thor/init"
+	"github.com/ieee0824/thor/view"
 	termbox "github.com/nsf/termbox-go"
 )
+
+func init() {
+}
 
 type Init struct{}
 
@@ -15,7 +21,23 @@ func (c *Init) Run(args []string) int {
 		log.Fatalln(err)
 	}
 	defer termbox.Close()
-	i.RunInit()
+	go func() {
+		t := time.NewTicker(500 * time.Millisecond)
+		for {
+			select {
+			case <-t.C:
+				if box, err := view.View["JP"].GetView(); err == nil {
+					box.ToggleCursor()
+					controller.Draw(box)
+				}
+			default:
+			}
+		}
+		t.Stop()
+	}()
+	if v, err := view.View["JP"].GetView(); err == nil {
+		v.Controller()
+	}
 	return 0
 }
 
