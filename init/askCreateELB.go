@@ -38,7 +38,11 @@ func askCreateELBController() {
 				view.View["JP"].Fin()
 				return
 			case termbox.KeyEnter:
-				return
+				if box, err := view.View["JP"].GetView(); err == nil {
+					if box.Answer() == "y" {
+					} else if box.Answer() == "no" {
+					}
+				}
 			case termbox.KeyBackspace:
 				if box, err := view.View["JP"].GetView(); err == nil {
 					if b, ok := box.(AskCreateELB); ok {
