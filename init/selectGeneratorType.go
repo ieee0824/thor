@@ -8,11 +8,6 @@ import (
 )
 
 func init() {
-	view.View["JP"] = view.New()
-	generator := SelectGeneratorType{}
-	generator.Init()
-	view.View["JP"].Add(generator, "selecGeneratorTypeView")
-	view.View["JP"].Transition("selecGeneratorTypeView")
 }
 
 type SelectGeneratorType struct {
@@ -21,10 +16,10 @@ type SelectGeneratorType struct {
 
 func (s *SelectGeneratorType) Init() {
 	s.SelectBox = selecGeneratorTypeJP()
-	s.SetController(controller)
+	s.SetController(selectGeneratorTypeController)
 }
 
-func controller() {
+func selectGeneratorTypeController() {
 	for {
 		if box, err := view.View["JP"].GetView(); err == nil {
 			c.Draw(box)
@@ -33,8 +28,19 @@ func controller() {
 		case termbox.EventKey:
 			switch ev.Key {
 			case termbox.KeyEsc:
+				view.View["JP"].Fin()
 				return
 			case termbox.KeyCtrlC:
+				view.View["JP"].Fin()
+				return
+			case termbox.KeyEnter:
+				if box, err := view.View["JP"].GetView(); err == nil {
+					if box.Answer() == "0" {
+						view.View["JP"].Transition("askCreateELB")
+					} else {
+						view.View["JP"].Fin()
+					}
+				}
 				return
 			case termbox.KeyArrowUp:
 				if box, err := view.View["JP"].GetView(); err == nil {

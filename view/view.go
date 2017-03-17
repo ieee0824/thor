@@ -20,6 +20,7 @@ type Views struct {
 	key string
 	now SingleView
 	all map[string]SingleView
+	fin bool
 }
 
 func New() *Views {
@@ -27,6 +28,7 @@ func New() *Views {
 		"",
 		nil,
 		map[string]SingleView{},
+		false,
 	}
 }
 
@@ -54,4 +56,12 @@ func (v *Views) GetAnswer(key string) (string, error) {
 		return view.Answer(), nil
 	}
 	return "", errors.New("can not find key " + key)
+}
+
+func (v *Views) Fin() {
+	v.fin = true
+}
+
+func (v *Views) IsFin() bool {
+	return v.fin
 }

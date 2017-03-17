@@ -1,11 +1,12 @@
 package subcmd
 
 import (
+	"io/ioutil"
 	"log"
 	"time"
 
 	"github.com/ieee0824/thor/controller"
-	_ "github.com/ieee0824/thor/init"
+	. "github.com/ieee0824/thor/init"
 	"github.com/ieee0824/thor/view"
 	termbox "github.com/nsf/termbox-go"
 )
@@ -16,6 +17,7 @@ func init() {
 type Init struct{}
 
 func (c *Init) Run(args []string) int {
+	view.View["JP"].Transition("selecGeneratorTypeView")
 	err := termbox.Init()
 	if err != nil {
 		log.Fatalln(err)
@@ -35,9 +37,15 @@ func (c *Init) Run(args []string) int {
 		}
 		t.Stop()
 	}()
-	if v, err := view.View["JP"].GetView(); err == nil {
-		v.Controller()
+	for !view.View["JP"].IsFin() {
+		if v, err := view.View["JP"].GetView(); err == nil {
+			v.Controller()
+		}
 	}
+
+	bin := GenTemplate(nil)
+	ioutil.WriteFile("template.json", bin, 0644)
+
 	return 0
 }
 
