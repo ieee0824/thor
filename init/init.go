@@ -9,16 +9,6 @@ import (
 
 var LANG = "JP"
 
-var sections = map[string]map[string]Section{
-	"JP": JPSections,
-}
-
-type Section interface {
-	Answer() string
-	Message() string
-	ToggleCursor()
-}
-
 func drawLine(x, y int, str string) {
 	color := termbox.ColorDefault
 	backgroundColor := termbox.ColorDefault
@@ -31,11 +21,13 @@ func drawLine(x, y int, str string) {
 func drawString(s string) {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 	drawLine(0, 0, "Press ^C or ESC to exit.")
-	drawLine(0, 1, s)
+	for i, s := range strings.Split(s, "\n") {
+		drawLine(0, 1+i, s)
+	}
 	termbox.Flush()
 }
 
-func draw(d Section) {
+func draw(d Menu) {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 	drawLine(0, 0, "Press ^C or ESC to exit.")
 

@@ -1,10 +1,10 @@
 package init
 
-var JPSections = map[string]Section{
-	"generateQuestinType": generateQuestinTypeJP(),
+var JPMenu = map[string]Menu{
+	"selecGeneratorType": selecGeneratorTypeJP(),
 }
 
-func generateQuestinTypeJP() *SelectBox {
+func selecGeneratorTypeJP() *SelectBox {
 	return NewSelectBox(
 		"設定ファイルの生成方法を選ぶ",
 		[]string{
