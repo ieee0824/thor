@@ -2,16 +2,6 @@ package init
 
 import "testing"
 
-func TestIsMultiByteChar(t *testing.T) {
-	if isMultiByteChar('a') {
-		t.Errorf("I wanted %v but it was %v.", false, isMultiByteChar('a'))
-	}
-
-	if !isMultiByteChar('あ') {
-		t.Errorf("I wanted %v but it was %v.", true, isMultiByteChar('あ'))
-	}
-}
-
 func TestString2Lines(t *testing.T) {
 	sampleStringAscii := "0123456789"
 	sampleStringMultiByte := "あいうえお"

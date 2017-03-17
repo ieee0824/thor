@@ -20,7 +20,7 @@ func (a *AskCreateELB) Init() {
 }
 
 func askCreateELBJP() *PolarQuestionBox {
-	return NewPolarQuestionBox("ELB" + util.MultiString("を作るかどうか"))
+	return NewPolarQuestionBox(util.MultiString("ELBを作るかどうか"))
 }
 
 func askCreateELBController() {

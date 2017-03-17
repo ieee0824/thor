@@ -1,11 +1,10 @@
 package init
 
-import "fmt"
+import (
+	"fmt"
 
-func isMultiByteChar(r rune) bool {
-	c := string([]rune{r})
-	return 1 != len(c)
-}
+	"github.com/ieee0824/thor/util"
+)
 
 func string2Lines(s string, w int) []*Line {
 	var ret = []*Line{}
@@ -17,7 +16,7 @@ func string2Lines(s string, w int) []*Line {
 	}
 
 	for _, r := range runes {
-		if isMultiByteChar(r) {
+		if util.IsMultiByteChar(r) {
 			if wCounter+2 <= w {
 				wCounter += 2
 				stringBuffer += string([]rune{r})
