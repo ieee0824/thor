@@ -54,6 +54,13 @@ func askUseELBController() {
 					}
 					c.Draw(box)
 				}
+			case termbox.KeyBackspace2:
+				if box, err := view.View["JP"].GetView(); err == nil {
+					if b, ok := box.(AskUseELB); ok {
+						b.BS()
+					}
+					c.Draw(box)
+				}
 			default:
 				if box, err := view.View["JP"].GetView(); err == nil {
 					if b, ok := box.(AskUseELB); ok {

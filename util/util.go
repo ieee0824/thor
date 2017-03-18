@@ -3,7 +3,21 @@ package util
 import (
 	"errors"
 	"strings"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 )
+
+var AwsConfig *aws.Config
+
+func init() {
+	var cred *credentials.Credentials
+	cred = credentials.NewSharedCredentials("", "default")
+	AwsConfig = &aws.Config{
+		Credentials: cred,
+		Region:      aws.String("ap-northeast-1"),
+	}
+}
 
 type LANG string
 

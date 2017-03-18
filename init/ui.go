@@ -195,6 +195,7 @@ type TextBox struct {
 	MaxWidth   int
 	cursor     bool
 	controller func()
+	meta       string
 }
 
 func (t *TextBox) SetController(f func()) {
@@ -217,7 +218,17 @@ func (t *TextBox) Message() string {
 	var ret string
 	ret = fmt.Sprintf("<-- %v -->\n", t.Question)
 	ret = ret + fmt.Sprintf("=> %v%v\n", t.input, genCursor(t.cursor))
+	if t.meta != "" {
+		ret += "\n"
+		ret += "\n"
+		ret += t.meta
+	}
+
 	return ret
+}
+
+func (t *TextBox) SetMeta(m string) {
+	t.meta = m
 }
 
 func (t *TextBox) Subst(s string) {
