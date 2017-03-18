@@ -10,16 +10,20 @@ import (
 func init() {
 }
 
-type SelectGeneratorType struct {
-	*SelectBox
+type AskUseELB struct {
+	*PolarQuestionBox
 }
 
-func (s *SelectGeneratorType) Init() {
-	s.SelectBox = selecGeneratorTypeJP()
-	s.SetController(selectGeneratorTypeController)
+func (a *AskUseELB) Init() {
+	a.PolarQuestionBox = askUseELBJP()
+	a.SetController(askUseELBController)
 }
 
-func selectGeneratorTypeController() {
+func askUseELBJP() *PolarQuestionBox {
+	return NewPolarQuestionBox(util.MultiString("ELBを使うかどうか"))
+}
+
+func askUseELBController() {
 	for {
 		if box, err := view.View["JP"].GetView(); err == nil {
 			c.Draw(box)
@@ -35,30 +39,26 @@ func selectGeneratorTypeController() {
 				return
 			case termbox.KeyEnter:
 				if box, err := view.View["JP"].GetView(); err == nil {
-					if box.Answer() == "0" {
-						view.View["JP"].Transition("askUseELB")
-					} else {
-						view.View["JP"].Fin()
+					if box.Answer() == "y" {
+						// elbの設定へ
+						view.View["JP"].Transition("elbNameSetting")
+						return
+					} else if box.Answer() == "no" {
+						// ecsの設定へ
 					}
 				}
-				return
-			case termbox.KeyArrowUp:
+			case termbox.KeyBackspace:
 				if box, err := view.View["JP"].GetView(); err == nil {
-					if b, ok := box.(SelectGeneratorType); ok {
-						b.Up()
+					if b, ok := box.(AskUseELB); ok {
+						b.BS()
 					}
 					c.Draw(box)
 				}
-			case termbox.KeyArrowDown:
-				if box, err := view.View["JP"].GetView(); err == nil {
-					if b, ok := box.(SelectGeneratorType); ok {
-						b.Down()
-					}
-					c.Draw(box)
-				}
-
 			default:
 				if box, err := view.View["JP"].GetView(); err == nil {
+					if b, ok := box.(AskUseELB); ok {
+						b.Add(ev.Ch)
+					}
 					c.Draw(box)
 				}
 			}
@@ -68,14 +68,4 @@ func selectGeneratorTypeController() {
 			}
 		}
 	}
-}
-
-func selecGeneratorTypeJP() *SelectBox {
-	return NewSelectBox(
-		util.MultiString("設定ファイルの生成方法を選ぶ"),
-		[]string{
-			util.MultiString("対話式に設定をする"),
-			util.MultiString("テンプレートを生成する"),
-		},
-	)
 }

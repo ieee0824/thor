@@ -8,7 +8,11 @@ func init() {
 	generator.Init()
 	view.View["JP"].Add(generator, "selecGeneratorTypeView")
 
-	creater := AskCreateELB{}
-	creater.Init()
-	view.View["JP"].Add(creater, "askCreateELB")
+	askELB := AskUseELB{}
+	askELB.Init()
+	view.View["JP"].Add(askELB, "askUseELB")
+
+	setELBName := ELBNameSetting{}
+	setELBName.Init()
+	view.View["JP"].Add(setELBName, "elbNameSetting")
 }
