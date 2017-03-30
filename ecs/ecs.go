@@ -50,7 +50,10 @@ func UpsertService(awsConfig *aws.Config, createServiceInput *ecs.CreateServiceI
 		return nil, err
 	}
 	if !ok {
-		return CreateService(awsConfig, createServiceInput)
+		result, err := CreateService(awsConfig, createServiceInput)
+		if err == nil {
+			return result, nil
+		}
 	}
 
 	updateServiceInput := &ecs.UpdateServiceInput{}

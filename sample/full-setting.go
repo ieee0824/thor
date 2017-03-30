@@ -1,13 +1,18 @@
-package sample
+package main
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/aws/aws-sdk-go/service/elbv2"
 	"github.com/ieee0824/thor/setting"
 )
+
+func main() {
+	fmt.Println(sample())
+}
 
 func sample() string {
 	s := &setting.Setting{

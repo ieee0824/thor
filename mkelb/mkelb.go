@@ -9,7 +9,7 @@ import (
 
 func MkELB(awsConfig *aws.Config, s *setting.ELB) (interface{}, error) {
 	var result = []interface{}{}
-	resultTargetGroup, err := elb.CreateTargetGroup(awsConfig, s.CreateTargetGroupInput)
+	resultTargetGroup, err := elb.CreateTargetGroup(awsConfig, s.TargetGroup)
 	if err != nil {
 		return nil, err
 	}
@@ -25,11 +25,11 @@ func MkELB(awsConfig *aws.Config, s *setting.ELB) (interface{}, error) {
 		TargetGroupArn: resultTargetGroup.TargetGroups[0].TargetGroupArn,
 		Type:           aws.String("forward"),
 	}
-	s.CreateListenerInput.DefaultActions = []*elbv2.Action{
+	s.Listener.DefaultActions = []*elbv2.Action{
 		defaultAction,
 	}
-	s.CreateListenerInput.LoadBalancerArn = resultLoadBalancer.LoadBalancers[0].LoadBalancerArn
-	resultLister, err := elb.CreateListener(awsConfig, s.CreateListenerInput)
+	s.Listener.LoadBalancerArn = resultLoadBalancer.LoadBalancers[0].LoadBalancerArn
+	resultLister, err := elb.CreateListener(awsConfig, s.Listener)
 	if err != nil {
 		return nil, err
 	}

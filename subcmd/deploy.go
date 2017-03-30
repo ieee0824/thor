@@ -76,8 +76,6 @@ func parseDeployArgs(args []string) (*deployParam, error) {
 	if vaultPassParam, err := getFullNameParam(args, "--ask-vault-pass"); err == nil {
 		if len(vaultPassParam) == 1 {
 			vaultPass = *vaultPassParam[0]
-		} else {
-			return nil, errors.New("--ask-vault-pass param is invalid")
 		}
 	}
 	if vaultPass != "" {
@@ -161,11 +159,9 @@ func readConf(params *deployParam) (*deployConfigure, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	externals, err := readExternalVariables()
-	if err != nil {
-		return nil, err
-	}
-	if len(externals) != 0 {
+	if err == nil && len(externals) != 0 {
 		base := string(deployConfigureJSON)
 		for _, external := range externals {
 			if vault.IsSecret(external) {
@@ -194,7 +190,7 @@ func readConf(params *deployParam) (*deployConfigure, error) {
 	if err := json.Unmarshal(deployConfigureJSON, config); err != nil {
 		return nil, err
 	}
-	return config, err
+	return config, nil
 }
 
 func (c *Deploy) Run(args []string) int {

@@ -1,6 +1,7 @@
 {
     "ELB": {
         "IpAddressType": "'ipv4' or 'dualstack'",
+        "Name": "load balancer name",
         "Scheme": "https://github.com/aws/aws-sdk-go/blob/master/service/elbv2/api.go#L2798",
         "SecurityGroups": [
             "sg-xxxxxx",
@@ -20,30 +21,39 @@
                 "Value": "bar"
             }
         ],
-        "HealthCheckIntervalSeconds": 5,
-        "HealthCheckPath": "/",
-        "HealthCheckPort": "80",
-        "HealthCheckProtocol": "HTTP",
-        "HealthCheckTimeoutSeconds": 5,
-        "HealthyThresholdCount": 5,
-        "Matcher": {
-            "HttpCode": null
+        "TargetGroup": {
+            "HealthCheckIntervalSeconds": 5,
+            "HealthCheckPath": "/",
+            "HealthCheckPort": "80",
+            "HealthCheckProtocol": "HTTP",
+            "HealthCheckTimeoutSeconds": 5,
+            "HealthyThresholdCount": 5,
+            "Matcher": {
+                "HttpCode": null
+            },
+            "Name": "target group name",
+            "Port": 80,
+            "Protocol": "HTTP",
+            "UnhealthyThresholdCount": 2,
+            "VpcId": "vpc-xxxxxx"
         },
-        "UnhealthyThresholdCount": 2,
-        "VpcId": "vpc-xxxxxx",
-        "Certificates": [
-            {
-                "CertificateArn": "certifacate arn"
-            }
-        ],
-        "DefaultActions": [
-            {
-                "TargetGroupArn": null,
-                "Type": null
-            }
-        ],
-        "LoadBalancerArn": null,
-        "SslPolicy": null
+        "Listener": {
+            "Certificates": [
+                {
+                    "CertificateArn": "certifacate arn"
+                }
+            ],
+            "DefaultActions": [
+                {
+                    "TargetGroupArn": null,
+                    "Type": null
+                }
+            ],
+            "LoadBalancerArn": null,
+            "Port": null,
+            "Protocol": null,
+            "SslPolicy": null
+        }
     },
     "ECS": {
         "Service": {
